@@ -8,12 +8,14 @@ categories:
 tags:
   - R
 ---
-# 第1步：獲取R工作目錄指令 
+# 第1步：R工作目錄指令 
 ```{r}
 
 ```
 
 ```{r}
+getwd()
+setwd("/Users/StevenYang/Desktop/RBlog/lyang201801/try/content/post")
 getwd()
 ```
 
@@ -142,5 +144,5 @@ abline(h = 0.95, v = 0.95,col = "red")
 grid()
 ```
 
-here is the [yen](data/yen.csv).
+
 

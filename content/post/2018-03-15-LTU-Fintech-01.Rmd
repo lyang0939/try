@@ -20,6 +20,8 @@ institute: 嶺東科技大學財經學院(台灣台中)
 
 ```{r}
 getwd()
+setwd("/Users/StevenYang/Desktop/RBlog/lyang201801/try/content/post")
+getwd()
 ```
 
 
