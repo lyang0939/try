@@ -18,7 +18,7 @@ institute: 嶺東科技大學財經學院(台灣台中)
 
 # 第一步:R控制權
 
-here is the [yen](public/teaching/yen.csv).
+here is the [yen](../content/yen.csv).
 
 ```{r}
 getwd()
