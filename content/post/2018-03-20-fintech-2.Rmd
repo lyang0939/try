@@ -141,6 +141,6 @@ plot(return,xlab="year ",ylab="%", main="tw3008")
 abline(h = 0.95, v = 0.95,col = "red")
 grid()
 ```
+
 here is the [yen](data/yen.csv).
- 
 

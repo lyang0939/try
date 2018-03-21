@@ -1,0 +1,101 @@
+---
+title: "嶺東財金所時間序列-FinTech 第3堂課"
+author: '楊永列  '
+date: '2018-03-19'
+output:
+  html_document:
+    theme: united
+    toc: yes
+  pdf_document:
+    highlight: zenburn
+    toc: yes
+  word_document:
+    toc: yes
+subtitle: 利用R語言-ARIMA三步驟
+institute: 嶺東科技大學財經學院(台灣台中)
+---  
+  
+
+# 第一步:R控制權
+
+
+```{r}
+getwd()
+setwd("/Users/StevenYang/Desktop/RBlog/lyang201801/try/content/post")
+getwd()
+```
+
+
+# 第二步:R 讀資料 
+
+
+```{r}
+library(TSA)
+
+dat=read.csv("yen.csv",header=T)
+attach(dat)
+tail(dat) 
+ 
+ 
+no <-(dat[,1]) 
+year <-(dat[,2])  
+yen <-(dat[,3])  
+pound <-(dat[,4])  
+  
+
+```
+
+
+# 第三步: ARMA 
+
+
+
+## STEP 1 認定:畫圖-ACF PACF
+
+```{r}
+
+par(mfrow=c(1,2)) 
+acf(yen, main="日圓匯率自我相關函數")
+grid()
+pacf(yen, main="日圓匯率偏自我相關函數")
+grid()
+par(mfrow=c(1,1)) 
+dev.off()
+
+```
+ 
+
+## STEP 2 估計:最小平方法 ARMA ESTIMATION
+
+```{r}
+m1=arima(yen,order=c(1,0,0))
+m1
+
+print(m1)  
+
+ar(yen,  1)  
+
+```
+
+ 
+
+## STEP 3 ARIMA估計與診斷
+
+```{r}
+yenar1=arima(yen,order=c(1,0,0))
+yenar1
+Box.test(yenar1$residuals,lag=10,type='Ljung')
+
+
+result<-ar(yen,method="ols",order.max=1 )                         #estimate AR(1) model
+summary(result)
+result$ar                                                                              #display the estimated coefficeints
+Box.test(result$resid, lag = 10, type = "Ljung-Box")                 # Ljung-Box test
+
+
+```
+
+
+
+
+## STEP 4 FORECASTING: Make a picture of the residuals

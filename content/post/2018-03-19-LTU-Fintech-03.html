@@ -1,0 +1,165 @@
+---
+title: "嶺東財金所時間序列-FinTech 第3堂課"
+author: '楊永列  '
+date: '2018-03-19'
+output:
+  html_document:
+    theme: united
+    toc: yes
+  pdf_document:
+    highlight: zenburn
+    toc: yes
+  word_document:
+    toc: yes
+subtitle: 利用R語言-ARIMA三步驟
+institute: 嶺東科技大學財經學院(台灣台中)
+---  
+
+
+
+<div id="r" class="section level1">
+<h1>第一步:R控制權</h1>
+<pre class="r"><code>getwd()</code></pre>
+<pre><code>## [1] &quot;/Users/StevenYang/Desktop/RBlog/lyang201801/try/content/post&quot;</code></pre>
+<pre class="r"><code>setwd(&quot;/Users/StevenYang/Desktop/RBlog/lyang201801/try/content/post&quot;)
+getwd()</code></pre>
+<pre><code>## [1] &quot;/Users/StevenYang/Desktop/RBlog/lyang201801/try/content/post&quot;</code></pre>
+</div>
+<div id="r-" class="section level1">
+<h1>第二步:R 讀資料</h1>
+<pre class="r"><code>library(TSA)</code></pre>
+<pre><code>## Loading required package: leaps</code></pre>
+<pre><code>## Loading required package: locfit</code></pre>
+<pre><code>## locfit 1.5-9.1    2013-03-22</code></pre>
+<pre><code>## Loading required package: mgcv</code></pre>
+<pre><code>## Loading required package: nlme</code></pre>
+<pre><code>## This is mgcv 1.8-22. For overview type &#39;help(&quot;mgcv-package&quot;)&#39;.</code></pre>
+<pre><code>## Loading required package: tseries</code></pre>
+<pre><code>## 
+## Attaching package: &#39;TSA&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     acf, arima</code></pre>
+<pre><code>## The following object is masked from &#39;package:utils&#39;:
+## 
+##     tar</code></pre>
+<pre class="r"><code>dat=read.csv(&quot;yen.csv&quot;,header=T)
+attach(dat)
+tail(dat) </code></pre>
+<pre><code>##      no    year    YEN  POUND
+## 122 122 2000M02 110.18 1.5927
+## 123 123 2000M03 105.85 1.5951
+## 124 124 2000M04 106.55 1.5681
+## 125 125 2000M05 106.65 1.4948
+## 126 126 2000M06 105.40 1.5122
+## 127 127 2000M07 109.50 1.4982</code></pre>
+<pre class="r"><code>no &lt;-(dat[,1]) 
+year &lt;-(dat[,2])  
+yen &lt;-(dat[,3])  
+pound &lt;-(dat[,4])  </code></pre>
+</div>
+<div id="-arma" class="section level1">
+<h1>第三步: ARMA</h1>
+<div id="step-1--acf-pacf" class="section level2">
+<h2>STEP 1 認定:畫圖-ACF PACF</h2>
+<pre class="r"><code>par(mfrow=c(1,2)) 
+acf(yen, main=&quot;日圓匯率自我相關函數&quot;)
+grid()
+pacf(yen, main=&quot;日圓匯率偏自我相關函數&quot;)
+grid()</code></pre>
+<p><img src="/post/2018-03-19-LTU-Fintech-03_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>par(mfrow=c(1,1)) 
+dev.off()</code></pre>
+<pre><code>## null device 
+##           1</code></pre>
+</div>
+<div id="step-2--arma-estimation" class="section level2">
+<h2>STEP 2 估計:最小平方法 ARMA ESTIMATION</h2>
+<pre class="r"><code>m1=arima(yen,order=c(1,0,0))
+m1</code></pre>
+<pre><code>## 
+## Call:
+## arima(x = yen, order = c(1, 0, 0))
+## 
+## Coefficients:
+##          ar1  intercept
+##       0.9697   121.0191
+## s.e.  0.0201     9.8182
+## 
+## sigma^2 estimated as 16.64:  log likelihood = -360.15,  aic = 724.3</code></pre>
+<pre class="r"><code>print(m1)  </code></pre>
+<pre><code>## 
+## Call:
+## arima(x = yen, order = c(1, 0, 0))
+## 
+## Coefficients:
+##          ar1  intercept
+##       0.9697   121.0191
+## s.e.  0.0201     9.8182
+## 
+## sigma^2 estimated as 16.64:  log likelihood = -360.15,  aic = 724.3</code></pre>
+<pre class="r"><code>ar(yen,  1)  </code></pre>
+<pre><code>## 
+## Call:
+## ar(x = yen, aic = 1)
+## 
+## Coefficients:
+##       1        2        3  
+##  1.0823  -0.0113  -0.1286  
+## 
+## Order selected 3  sigma^2 estimated as  21.98</code></pre>
+</div>
+<div id="step-3-arima" class="section level2">
+<h2>STEP 3 ARIMA估計與診斷</h2>
+<pre class="r"><code>yenar1=arima(yen,order=c(1,0,0))
+yenar1</code></pre>
+<pre><code>## 
+## Call:
+## arima(x = yen, order = c(1, 0, 0))
+## 
+## Coefficients:
+##          ar1  intercept
+##       0.9697   121.0191
+## s.e.  0.0201     9.8182
+## 
+## sigma^2 estimated as 16.64:  log likelihood = -360.15,  aic = 724.3</code></pre>
+<pre class="r"><code>Box.test(yenar1$residuals,lag=10,type=&#39;Ljung&#39;)</code></pre>
+<pre><code>## 
+##  Box-Ljung test
+## 
+## data:  yenar1$residuals
+## X-squared = 16.114, df = 10, p-value = 0.09643</code></pre>
+<pre class="r"><code>result&lt;-ar(yen,method=&quot;ols&quot;,order.max=1 )                         #estimate AR(1) model
+summary(result)</code></pre>
+<pre><code>##             Length Class  Mode     
+## order         1    -none- numeric  
+## ar            1    -none- numeric  
+## var.pred      1    -none- numeric  
+## x.mean        1    -none- numeric  
+## x.intercept   1    -none- numeric  
+## aic           2    -none- numeric  
+## n.used        1    -none- numeric  
+## order.max     1    -none- numeric  
+## partialacf    0    -none- NULL     
+## resid       127    -none- numeric  
+## method        1    -none- character
+## series        1    -none- character
+## frequency     1    -none- numeric  
+## call          4    -none- call     
+## asy.se.coef   2    -none- list</code></pre>
+<pre class="r"><code>result$ar                                                                              #display the estimated coefficeints</code></pre>
+<pre><code>## , , 1
+## 
+##           [,1]
+## [1,] 0.9579817</code></pre>
+<pre class="r"><code>Box.test(result$resid, lag = 10, type = &quot;Ljung-Box&quot;)                 # Ljung-Box test</code></pre>
+<pre><code>## 
+##  Box-Ljung test
+## 
+## data:  result$resid
+## X-squared = 15.616, df = 10, p-value = 0.1112</code></pre>
+</div>
+<div id="step-4-forecasting-make-a-picture-of-the-residuals" class="section level2">
+<h2>STEP 4 FORECASTING: Make a picture of the residuals</h2>
+</div>
+</div>

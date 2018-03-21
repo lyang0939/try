@@ -460,6 +460,7 @@ d=getSymbols(&quot;3008.TW&quot;)   # 以大力光為例</code></pre>
 ## 2018-03-12         3995         4015        3940          3955
 ## 2018-03-13         4015         4085        4010          4045
 ## 2018-03-14         4000         4035        3960          3960
+## 2018-03-15         3870         3895        3785          3785
 ##            3008.TW.Volume 3008.TW.Adjusted
 ## 2016-07-15        2028000         3333.823
 ## 2016-07-18        1099000         3406.720
@@ -869,7 +870,8 @@ d=getSymbols(&quot;3008.TW&quot;)   # 以大力光為例</code></pre>
 ## 2018-03-09         633785         3860.000
 ## 2018-03-12         760482         3955.000
 ## 2018-03-13         755652         4045.000
-## 2018-03-14         496843         3960.000</code></pre>
+## 2018-03-14         496843         3960.000
+## 2018-03-15         798527         3785.000</code></pre>
 <pre class="r"><code>tw3008&lt;-na.omit(d)</code></pre>
 <pre class="r"><code>head(tw3008)</code></pre>
 <pre><code>##            3008.TW.Open 3008.TW.High 3008.TW.Low 3008.TW.Close
@@ -888,19 +890,19 @@ d=getSymbols(&quot;3008.TW&quot;)   # 以大力光為例</code></pre>
 ## 2007-01-09        6718508         415.3969</code></pre>
 <pre class="r"><code>tail(tw3008)</code></pre>
 <pre><code>##            3008.TW.Open 3008.TW.High 3008.TW.Low 3008.TW.Close
-## 2018-03-07         3620         3690        3600          3690
-## 2018-03-08         3700         3760        3685          3715
-## 2018-03-09         3790         3860        3750          3860
-## 2018-03-12         3995         4015        3940          3955
 ## 2018-03-13         4015         4085        4010          4045
 ## 2018-03-14         4000         4035        3960          3960
+## 2018-03-15         3870         3895        3785          3785
+## 2018-03-16         3805         3840        3690          3690
+## 2018-03-19         3710         3720        3655          3710
+## 2018-03-20         3650         3670        3550          3555
 ##            3008.TW.Volume 3008.TW.Adjusted
-## 2018-03-07         708611             3690
-## 2018-03-08         406676             3715
-## 2018-03-09         633785             3860
-## 2018-03-12         760482             3955
 ## 2018-03-13         755652             4045
-## 2018-03-14         496843             3960</code></pre>
+## 2018-03-14         496843             3960
+## 2018-03-15         798527             3785
+## 2018-03-16         900428             3690
+## 2018-03-19         560452             3710
+## 2018-03-20        1300237             3555</code></pre>
 <pre class="r"><code>#包含每天開盤價(AAPL.Open)、最高價(AAPL.High)、最低價(AAPL.Low)、收盤價(AAPL.Close)、成交量(AAPL.Volume)、(還原權值)AAPL.Adjusted。</code></pre>
 </div>
 <div id="4rk" class="section level1">
@@ -979,12 +981,12 @@ addTA(ma_60,on=1,col=&quot;red&quot;)</code></pre>
 #由於我們是日資料,訊號發生時只能隔天做交易，故將這向量全部往後遞延一天
 tail(position)</code></pre>
 <pre><code>##            Lag.1
-## 2018-03-07     0
-## 2018-03-08     0
-## 2018-03-09     0
-## 2018-03-12     0
 ## 2018-03-13     0
-## 2018-03-14     0</code></pre>
+## 2018-03-14     0
+## 2018-03-15     0
+## 2018-03-16     0
+## 2018-03-19     0
+## 2018-03-20     0</code></pre>
 </div>
 <div id="7roc" class="section level1">
 <h1>第7步：ROC買賣大立光股王股價策略回測</h1>
@@ -1009,5 +1011,6 @@ return&lt;-exp(cumsum(return))</code></pre>
 plot(return,xlab=&quot;year &quot;,ylab=&quot;%&quot;, main=&quot;tw3008&quot;) 
 abline(h = 0.95, v = 0.95,col = &quot;red&quot;)
 grid()</code></pre>
-<p><img src="/post/2018-03-20-fintech-2_files/figure-html/unnamed-chunk-15-1.png" width="672" /> here is the <a href="data/yen.csv">yen</a>.</p>
+<p><img src="/post/2018-03-20-fintech-2_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>here is the <a href="data/yen.csv">yen</a>.</p>
 </div>
